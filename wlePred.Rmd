@@ -36,9 +36,9 @@ print(names(training))
 Figure 2. Features of the WLE Datase After Removing NAs
 
 ## Building the Classification Model
-We then used a Support Vector Machine learning algorithm ("svmLinear") to train our model. In order to avoid overfitting the model, we used a training control technique with a **fold-cross-validation** method with the default parameters. The **in sample error** was **78.68 %**.
+We then used a Support Vector Machine learning algorithm ("svmLinear") to train our model. In order to avoid overfitting the model, we used a training control technique with a **fold-cross-validation** method with the default parameters. The **in sample error** was **78.68 %**. This is our estimate of the **out of sample** error.
 
-In order to compute the **out of sample error** we used the testing set. Given that we did not have the assigned class to testing samples, we used the information provided by the grading system over the testing samples. That is, there are 20 samples, from them, our model obtained successful classifications to 16 samples. Then, the **our of sample error** was **80 %**.
+In order to compute the **out of sample error** we used the testing set. Given that we did not have the assigned class to testing samples, we used the information provided by the grading system over the testing samples. That is, there are 20 samples, from them, our model obtained successful classifications to 16 samples. Then, the **our of sample error** was **80 %**, which is pretty close to our prediction (as found using the cross validation technique).
 
 ```{r, cache=TRUE, warnings=FALSE}
 library(caret)
@@ -51,8 +51,6 @@ predict(fit1, testing)
 ```
 
 Figure 3. Code Used for the Classification Task with the WLE Dataset.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 
 ## References
