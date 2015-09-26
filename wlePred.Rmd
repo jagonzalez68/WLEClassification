@@ -1,0 +1,59 @@
+---
+title: "Activity Quality Prediction"
+author: "Jesus A. Gonzalez"
+date: "25 de septiembre de 2015"
+output: html_document
+---
+
+## Introduction
+In this project we use machine learning techniques to predict the quality in which people performed some exercises, specifically, five different types of barbell lifts. The data used to perform this task comes from the "Human Activity Recognition" (HAR) project (more precisely the Weight Lifting Exercise Dataset (WLE) from the HAR project) that can be found at http://groupware.les.inf.puc-rio.br/har [1]. The WLE dataset contains data about six young and healty participants that performed a set of ten repetitions of the "Unilateral Dumbbell Biceps Curl" exercise in five different ways/classes describing how the exercise was performed:
+
+- A, Exactly according to the specification
+- B, Throwing the elbows to the front
+- C, Lifting the dumbbell only halfway
+- D, Lowering the dumbbell only halfway
+- E, Throwing the hips to the front
+
+The class distribution is as shown in figure 1.
+
+```{r, cache=TRUE, warnings=FALSE, echo=FALSE}
+training <- read.csv("pml-training-2.csv")
+plot(training$classe, main="Training Samples per Class", xlab="Sample Class", ylab="Number of Samples")
+```
+
+Figure 1. Class Distribution in the Training Set of the WLE Dataset.
+
+The WLE dataset consists of 19,622 training examples and 20 testing examples with a set of 160 descriptive features each. The features of this dataset correspond to measures obtained from accelerometers located at the belt, forearm, arm, and dumbell of the six participants.
+
+## Preprocessing
+We loaded the training and testing sets and removed those attributes with no values ("NAs") because those did not contribute information to our dataset. These values were not imputed because there were not enough data to predict other values. We tried to use more preprocessing with principal component analysis but that did not improve accuracy and we did not used it. No more preprocessing was used. After preprocessing, we ended with 52 features for both, the training and testing sets. The names of the features are shown below.
+
+```{r, cache=TRUE, warnings=FALSE, echo=FALSE}
+training <- read.csv("pml-training-2.csv")
+testing <- read.csv("pml-testing-2.csv")
+print(names(training))
+```
+Figure 2. Features of the WLE Datase After Removing NAs
+
+## Building the Classification Model
+We then used a Support Vector Machine learning algorithm ("svmLinear") to train our model. In order to avoid overfitting the model, we used a training control technique with a **fold-cross-validation** method with the default parameters. The **in sample error** was **78.68 %**.
+
+In order to compute the **out of sample error** we used the testing set. Given that we did not have the assigned class to testing samples, we used the information provided by the grading system over the testing samples. That is, there are 20 samples, from them, our model obtained successful classifications to 16 samples. Then, the **our of sample error** was **80 %**.
+
+```{r, cache=TRUE, warnings=FALSE}
+library(caret)
+set.seed(1548)
+training <- read.csv("pml-training-2.csv")
+testing <- read.csv("pml-testing-2.csv")
+fit1 <- train(classe ~ ., data=training, method="svmLinear", trControl=trainControl(method="cv"))
+print(fit1$results)
+predict(fit1, testing)
+```
+
+Figure 3. Code Used for the Classification Task with the WLE Dataset.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+## References
+Ugulino, W.; Cardador, D.; Vega, K.; Velloso, E.; Milidiu, R.; Fuks, H. Wereable Computing: Accelerometers' Data Classification of Body Postures and Movements. Proceedigs of 21st Brazilian Symposium on Artificial Intelligence. Advances in Artificial Intelligence - SBIA 2012. In: Lecture Notes in Computer Science., pp. 52 - 61. Curitiba, PR: Springer Berlin / Heidelberg, 2012. ISBN 978-3-642-34458-9. DOI: 10.1007/978-3-642-34459-6_6.
