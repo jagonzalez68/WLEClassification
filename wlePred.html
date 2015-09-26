@@ -107,8 +107,8 @@ img {
 </div>
 <div id="building-the-classification-model" class="section level2">
 <h2>Building the Classification Model</h2>
-<p>We then used a Support Vector Machine learning algorithm (“svmLinear”) to train our model. In order to avoid overfitting the model, we used a training control technique with a <strong>fold-cross-validation</strong> method with the default parameters. The <strong>in sample error</strong> was <strong>78.68 %</strong>.</p>
-<p>In order to compute the <strong>out of sample error</strong> we used the testing set. Given that we did not have the assigned class to testing samples, we used the information provided by the grading system over the testing samples. That is, there are 20 samples, from them, our model obtained successful classifications to 16 samples. Then, the <strong>our of sample error</strong> was <strong>80 %</strong>.</p>
+<p>We then used a Support Vector Machine learning algorithm (“svmLinear”) to train our model. In order to avoid overfitting the model, we used a training control technique with a <strong>fold-cross-validation</strong> method with the default parameters. The <strong>in sample error</strong> was <strong>78.68 %</strong>. This is our estimate of the <strong>out of sample</strong> error.</p>
+<p>In order to compute the <strong>out of sample error</strong> we used the testing set. Given that we did not have the assigned class to testing samples, we used the information provided by the grading system over the testing samples. That is, there are 20 samples, from them, our model obtained successful classifications to 16 samples. Then, the <strong>our of sample error</strong> was <strong>80 %</strong>, which is pretty close to our prediction (as found using the cross validation technique).</p>
 <pre class="r"><code>library(caret)
 set.seed(1548)
 training &lt;- read.csv(&quot;pml-training-2.csv&quot;)
@@ -121,7 +121,6 @@ print(fit1$results)</code></pre>
 <pre><code>##  [1] C A B C A E D B A A C A B A E E A B B B
 ## Levels: A B C D E</code></pre>
 <p>Figure 3. Code Used for the Classification Task with the WLE Dataset.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
